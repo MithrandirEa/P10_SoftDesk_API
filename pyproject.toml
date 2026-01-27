@@ -1,0 +1,18 @@
+[project]
+name = "softdesk-api"
+version = "0.1.0"
+description = "Projet 10 OpenClassrooms, création d'API avec DRF"
+authors = [
+    {name = "Clément SCIPION clscipion@gmail.com"}
+]
+license = {text = "MIT"}
+requires-python = ">=3.14"
+dependencies = [
+    "django (>=6.0.1,<7.0.0)",
+    "pillow (>=12.1.0,<13.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
