@@ -1,0 +1,85 @@
+@startuml SoftDesk-Classes
+
+'--- ENUMERATIONS (Pour les choix fixes) ---
+enum ProjectType {
+    BACKEND
+    FRONTEND
+    IOS
+    ANDROID
+}
+
+enum Priority {
+    LOW
+    MEDIUM
+    HIGH
+}
+
+enum Tag {
+    BUG
+    FEATURE
+    TASK
+}
+
+enum Status {
+    TO_DO
+    IN_PROGRESS
+    FINISHED
+}
+
+'--- CLASSES ---
+
+class User{
+    + username : Charfield
+    + age : Integer
+    + email : Charfield
+    + role : Charfield
+    + can_be_contacted : Boolean
+    + can_data_be_shared : Boolean
+    + created_time : DateTime
+}
+
+class Contributor{
+    + created_time : DateTime
+}
+
+class Project {
+    + title : Charfield
+    + description : Textfield
+    + type : ProjectType
+    + created_time : DateTime
+}
+
+class Issue {
+    +title : Charfield
+    + description : Textfield
+    + priority : Priority
+    + tag : Tag
+    + status : Status
+    + created_time : DateTime
+}
+
+class Comment {
+    + uuid : UUID
+    + description : Textfield
+    + created_time : DateTime
+}
+
+'--- RELATIONS ---
+
+' Un User peut avoir plusieurs contributions
+User "1" -- "*" Contributor : is
+
+'Un Contributor est lié à un projet
+Contributor "*" -- "1" Project : contributes_to
+
+'Un projet contient des Issues (Composition : si on supprime le projet, les issues disparaissent)
+Project "1" *-- "*" Issue : has >
+
+'Une Issue contient des Comments
+Issue "1" *-- "*" Comment : has >
+
+'Un auteur (User ou Contributor) crée les ressources
+Contributor "1" --> "*" Issue : author/assigned
+Contributor "1" --> "*" Comment : author >
+
+@enduml
