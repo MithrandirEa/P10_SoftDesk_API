@@ -29,6 +29,8 @@ enum Status {
 '--- CLASSES ---
 
 class User{
+    + id : AutoField <<PK>>
+    ..
     + username : Charfield
     + age : Integer
     + email : Charfield
@@ -39,10 +41,16 @@ class User{
 }
 
 class Contributor{
+
+    + id : AutoField <<PK>>
+    ..
     + created_time : DateTime
 }
 
 class Project {
+
+    + id : AutoField <<PK>>
+    ..
     + title : Charfield
     + description : Textfield
     + type : ProjectType
@@ -50,6 +58,9 @@ class Project {
 }
 
 class Issue {
+
+    + id : AutoField <<PK>>
+    ..
     +title : Charfield
     + description : Textfield
     + priority : Priority
@@ -59,7 +70,8 @@ class Issue {
 }
 
 class Comment {
-    + uuid : UUID
+    + uuid : UUID <<PK>>
+    ..
     + description : Textfield
     + created_time : DateTime
 }
