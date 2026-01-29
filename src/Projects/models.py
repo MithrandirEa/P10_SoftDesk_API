@@ -14,6 +14,7 @@ class Project(models.Model):
 class Issue(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
+    
     priority = models.CharField(max_length=50)
     tag = models.CharField(max_length=50)
     status = models.CharField(max_length=50)

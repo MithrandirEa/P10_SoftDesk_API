@@ -24,7 +24,6 @@ from rest_framework_simplejwt.views import (
 )
 
 
-
 # Define routers and viewsets here as needed
 router = routers.SimpleRouter()
 
