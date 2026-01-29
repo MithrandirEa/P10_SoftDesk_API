@@ -23,9 +23,12 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
+from SoftDesk_API.views import api_root
+from Users.views import UserViewSet
 
 # Define routers and viewsets here as needed
 router = routers.SimpleRouter()
+router.register('users', UserViewSet, basename='user')
 
 
 urlpatterns = [
@@ -35,6 +38,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/', api_root, name='api-root'),
     path('api/', include(router.urls)),
 
 ]
