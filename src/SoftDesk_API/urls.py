@@ -29,7 +29,7 @@ router = routers.SimpleRouter()
 
 
 urlpatterns = [
-    path('', RedirectView.as_view(url='/api/', permanent=False)),
+    path('', RedirectView.as_view(url='/api/', permanent=False), name='root'),
     path('admin/', admin.site.urls),
 
     path('api-auth/', include('rest_framework.urls')),
