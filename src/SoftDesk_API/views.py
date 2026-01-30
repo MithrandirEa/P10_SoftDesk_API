@@ -6,4 +6,4 @@ def api_root(request, format=None):
     return Response({
         'message': "Bienvenue sur l'API SoftDesk",
         # Vous pouvez ajouter ici des liens vers d'autres endpoints. Pertinent ?
-        
+    })

@@ -30,3 +30,6 @@ class TestUrls(SimpleTestCase):
         url = reverse('root')
         self.assertEqual(url, '/')
         self.assertEqual(resolve(url).func.view_class, RedirectView)
+
+
+

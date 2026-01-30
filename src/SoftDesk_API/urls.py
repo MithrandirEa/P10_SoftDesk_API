@@ -23,22 +23,26 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-from SoftDesk_API.views import api_root
-from Users.views import UserViewSet
+# from SoftDesk_API.views import api_root
+from Users.views import (UserViewSet)
+from Projects.views import (ProjectViewSet)
 
-# Define routers and viewsets here as needed
-router = routers.SimpleRouter()
+# ---- ROUTER DE L'API ----
+router = routers.DefaultRouter()
 router.register('users', UserViewSet, basename='user')
-
+router.register('projects', ProjectViewSet, basename='project')
+# TODO: Ajouter les router admin/user, admin/project, admin/project/users, admin/project/issues, admin/project/comments,etc.. !!! A REFLECHIR
 
 urlpatterns = [
     path('', RedirectView.as_view(url='/api/', permanent=False), name='root'),
     path('admin/', admin.site.urls),
 
     path('api-auth/', include('rest_framework.urls')),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/', api_root, name='api-root'),
+    path('api/token/', TokenObtainPairView.as_view(),
+         name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(),
+         name='token_refresh'),
+    # path('api/', api_root, name='api-root'),
     path('api/', include(router.urls)),
 
 ]

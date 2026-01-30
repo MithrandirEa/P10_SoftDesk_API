@@ -41,6 +41,16 @@ class UserModelTest(TestCase):
             user.full_clean()  # Force la validation des champs
             user.save()
 
+    def test_rgpd_consent_defaults(self):
+        """Vérifie les permissions par défaut d'un user"""
+        user = User.objects.create(
+            username="permuser",
+            email="permuser@test.com",
+            age=30
+        )
+        self.assertTrue(user.can_be_contacted)
+        self.assertTrue(user.can_data_be_shared)
+
 
 class ContributorModelTest(TestCase):
 
@@ -75,3 +85,4 @@ class ContributorModelTest(TestCase):
 
         # Le contributor doit avoir disparu
         self.assertEqual(Contributor.objects.count(), 0)
+
