@@ -55,10 +55,6 @@ router.register('admin/projects',
                 AdminProjectViewSet,
                 basename='admin-project')
 
-
-
-# TODO: Ajouter les router admin/user, admin/project, admin/project/users, admin/project/issues, admin/project/comments,etc.. !!! A REFLECHIR
-
 urlpatterns = [
     path('', RedirectView.as_view(url='/api/', permanent=False), name='root'),
     path('admin/', admin.site.urls),
