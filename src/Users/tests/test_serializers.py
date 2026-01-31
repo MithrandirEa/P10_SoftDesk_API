@@ -40,14 +40,13 @@ class TestUserDetailSerializer(TestCase):
             'email': 'test@test.com',
             'age': 25,
             'can_be_contacted': True,
-            'can_data_be_shared': False,
-            'created_time': '2024-01-01T12:00:00Z'
+            'can_data_be_shared': False
         }
         serializer = UserDetailSerializer(data=user_data)
         self.assertTrue(serializer.is_valid())
         self.assertEqual(set(serializer.validated_data.keys()),
                          {'username', 'email', 'age', 'can_be_contacted',
-                          'can_data_be_shared', 'created_time'})
+                          'can_data_be_shared'})
 
     def test_no_clear_password_detailed_serializer(self):
         user = User.objects.create_user(

@@ -35,3 +35,7 @@ class UserPermissionsTest(APITestCase):
         self.client.force_authenticate(user=self.user2)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_unauthenticated_user_cannot_access_profile(self):
+        response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)

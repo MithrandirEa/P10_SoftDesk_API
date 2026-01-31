@@ -3,6 +3,8 @@ from rest_framework import serializers
 from Users.models import User, Contributor
 
 
+# ----------- User Serializers -----------
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -19,6 +21,9 @@ class UserDetailSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username', 'email', 'age', 'can_be_contacted',
                   'can_data_be_shared', 'created_time']
+
+
+# ---------- Contributor Serializer -----------
 
 
 class ContributorSerializer(serializers.ModelSerializer):

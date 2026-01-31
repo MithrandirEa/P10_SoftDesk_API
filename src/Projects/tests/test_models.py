@@ -7,13 +7,30 @@ from Users.models import User
 class TestCommentModel(TestCase):
     pass
 
+
 class TestIssueModel(TestCase):
     pass
+
 
 class TestProjectModel(TestCase):
 
     def test_create_project(self):
-        pass
+        self.user = User.objects.create_user(
+            username='projectauthor',
+            email='test@test.com',
+            age=25
+        )
+        project = Project.objects.create(
+            title='Test Project',
+            description='A test project description',
+            type='BACKEND',
+            author=self.user
+        )
+        self.assertEqual(Project.objects.count(), 1)
+        self.assertEqual(project.title, 'Test Project')
+
+    def test_project_have_author(self):
+        
 
     def test_project_str_representation(self):
         pass

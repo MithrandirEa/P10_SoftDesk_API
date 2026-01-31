@@ -3,6 +3,9 @@ from rest_framework import serializers
 from Projects.models import Comment, Issue, Project
 
 
+# ----------- Project Serializers -----------
+
+
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
@@ -15,12 +18,16 @@ class ProjectDetailSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+# ----------- Comment Serializers -----------
+
+
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = '__all__'
 
 
+# ----------- Issue Serializers -----------
 class IssueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Issue

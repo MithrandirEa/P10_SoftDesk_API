@@ -5,7 +5,8 @@ from Users.models import User, Contributor
 from Users.serializers import (UserSerializer,
                                UserDetailSerializer,
                                ContributorSerializer)
-from Users.permissions import IsOwner
+from Users.permissions import (IsAdminAuthenticated,
+                               IsOwner)
 
 
 class UserViewSet(ModelViewSet):
@@ -27,9 +28,19 @@ class UserViewSet(ModelViewSet):
 
 
 class ContributorViewSet(ModelViewSet):
-    """ ATTENTION: bien réfléchir à comment lier contributeur, user(author), 
-    users (ceux aui consultent) et projet """
+
     serializer_class = ContributorSerializer
 
     def get_queryset(self):
         return Contributor.objects.all()
+
+
+
+# ----------- ADMIN VIEWS -----------
+
+class AdminUserViewSet(ModelViewSet):
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminAuthenticated]
+
+    def get_queryset(self):
+        return User.objects.all()
