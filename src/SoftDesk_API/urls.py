@@ -25,8 +25,13 @@ from rest_framework_simplejwt.views import (
 )
 
 # from SoftDesk_API.views import api_root
-from Users.views import (AdminUserViewSet, UserViewSet)
-from Projects.views import (ProjectViewSet, AdminProjectViewSet, IssueViewSet, CommentViewSet)
+from Users.views import (AdminUserViewSet,
+                         UserViewSet,
+                         UserSignupView)
+from Projects.views import (ProjectViewSet,
+                            AdminProjectViewSet,
+                            IssueViewSet,
+                            CommentViewSet)
 
 # ---- ROUTER DE L'API ----
 router = routers.DefaultRouter()
@@ -58,6 +63,7 @@ router.register('admin/projects',
 urlpatterns = [
     path('', RedirectView.as_view(url='/api/', permanent=False), name='root'),
     path('admin/', admin.site.urls),
+    path('signup/', UserSignupView.as_view(), name='user-signup'),
 
     path('api-auth/', include('rest_framework.urls')),
     path('api/token/', TokenObtainPairView.as_view(),

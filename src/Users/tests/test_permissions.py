@@ -39,3 +39,4 @@ class UserPermissionsTest(APITestCase):
     def test_unauthenticated_user_cannot_access_profile(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+

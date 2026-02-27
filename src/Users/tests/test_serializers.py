@@ -62,3 +62,9 @@ class TestUserDetailSerializer(TestCase):
 
 class TestContributorSerializer(TestCase):
     pass    # TODO: À implémenter
+"""Vérifier si : 
+    - la création d'un contributeur est toujours associée à un utilisateur existant
+    - les champs spécifiques aux contributeurs sont correctement sérialisés et désérialisés
+    - la supression d'un contributeur n'affecte pas les données de l'utilisateur associé mais
+      bien ses issues et comments
+    - un contributor n'a pas accès aux autres projets, issues et comments que ceux auxquels il est assigné"""

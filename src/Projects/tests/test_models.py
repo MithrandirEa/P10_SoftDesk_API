@@ -30,16 +30,16 @@ class TestProjectModel(TestCase):
         self.assertEqual(project.title, 'Test Project')
 
     def test_project_have_author(self):
-        
+        pass    # TODO: Implémenter le test
 
     def test_project_str_representation(self):
-        pass
+        pass    # TODO: Implémenter le test
 
     def test_project_contributors_relationship(self):
-        pass
+        pass    # TODO: Implémenter le test
 
     def test_project_only_deleted_by_author(self):
-        pass
+        pass    # TODO: Implémenter le test
 
     def test_project_only_updated_by_author(self):
-        pass
+        pass    # TODO: Implémenter le test

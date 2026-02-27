@@ -1,5 +1,6 @@
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.generics import CreateAPIView
 
 from Users.models import User, Contributor
 from Users.serializers import (UserSerializer,
@@ -25,6 +26,13 @@ class UserViewSet(ModelViewSet):
 
     def get_permissions(self):
         return [IsAuthenticated(), IsOwner()]
+
+
+class UserSignupView(CreateAPIView):
+
+    serializer_class =  UserSerializer
+    permission_classes = [AllowAny]
+    queryset = User.objects.all()
 
 
 class ContributorViewSet(ModelViewSet):
