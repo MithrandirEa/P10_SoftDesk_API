@@ -4,7 +4,6 @@ from rest_framework.generics import CreateAPIView
 
 from Users.models import User, Contributor
 from Users.serializers import (UserSerializer,
-                               UserDetailSerializer,
                                ContributorSerializer)
 from Users.permissions import (IsAdminAuthenticated,
                                IsOwner)
@@ -13,16 +12,10 @@ from Users.permissions import (IsAdminAuthenticated,
 class UserViewSet(ModelViewSet):
 
     serializer_class = UserSerializer
-    detail_serializer_class = UserDetailSerializer
     permission_classes = [IsAuthenticated, IsOwner]
 
     def get_queryset(self):
         return User.objects.all()
-
-    def get_serializer_class(self):
-        if self.action == 'retrieve':
-            return self.detail_serializer_class
-        return super().get_serializer_class()
 
     def get_permissions(self):
         return [IsAuthenticated(), IsOwner()]
@@ -30,7 +23,7 @@ class UserViewSet(ModelViewSet):
 
 class UserSignupView(CreateAPIView):
 
-    serializer_class =  UserSerializer
+    serializer_class = UserSerializer
     permission_classes = [AllowAny]
     queryset = User.objects.all()
 
@@ -43,8 +36,8 @@ class ContributorViewSet(ModelViewSet):
         return Contributor.objects.all()
 
 
-
 # ----------- ADMIN VIEWS -----------
+
 
 class AdminUserViewSet(ModelViewSet):
     serializer_class = UserSerializer

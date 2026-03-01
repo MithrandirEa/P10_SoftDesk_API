@@ -6,22 +6,20 @@ from Users.models import User, Contributor
 # ----------- User Serializers -----------
 
 class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, required=True)
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'age']
+        fields = ['id', 'username', 'email', 'age', 'password', 'can_be_contacted',
+                  'can_data_be_shared', 'created_time']
         extra_kwargs = {
             'age': {'error_messages': {'min_value': 'L\'âge doit être au'
             ' moins de 15 ans.'}}
         }
 
-
-class UserDetailSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'email', 'age', 'can_be_contacted',
-                  'can_data_be_shared', 'created_time']
-
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data)
+        return user
 
 # ---------- Contributor Serializer -----------
 

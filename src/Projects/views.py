@@ -6,29 +6,37 @@ from Projects.serializers import (ProjectDetailSerializer,
                                   ProjectSerializer,
                                   CommentSerializer,
                                   IssueSerializer)
-from Users.permissions import IsAdminAuthenticated
+from Users.models import Contributor
+from Users.permissions import (IsAdminAuthenticated,
+                                IsAuthorOrReadOnly,
+                                IsOwner,
+                                IsProjectContributor)
 
 
 #  --------- Project Views ---------
 
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated,
+                          IsProjectContributor,
+                          IsAuthorOrReadOnly]
 
     def get_queryset(self):
         # Retourne les projets où l'utilisateur connecté est contributeur
         user = self.request.user
         return Project.objects.filter(contributor__user=user)
-    
+
     def get_serializer_class(self):
         if self.action == 'retrieve':
             return ProjectDetailSerializer
         return ProjectSerializer
 
-    def create_project(self, serializer):
+    def perform_create(self, serializer):
         # Associe l'utilisateur connecté comme auteur du projet
         project = serializer.save(author=self.request.user)
-        project.contributors.add(self.request.user)
+        Contributor.objects.create(user=self.request.user,
+                                   project=project,
+                                   role='Author')
 
 
 class AdminProjectViewSet(viewsets.ModelViewSet):
@@ -44,33 +52,43 @@ class AdminProjectViewSet(viewsets.ModelViewSet):
 #  ----------- Comment Views -----------
 
 class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.all()
-    permission_classes = [IsAuthenticated]
-
-    def get_serializer_class(self):
-        if self.action == 'retrieve':
-            return CommentSerializer
-        return CommentSerializer
+    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated,
+                          IsProjectContributor,
+                          IsAuthorOrReadOnly]
 
     def get_queryset(self):
-        # Retourne les commentaires des issues des projets où l'utilisateur connecté est contributeur
         user = self.request.user
-        return Comment.objects.filter(project__contributor__user=user)
+        issue_pk = self.kwargs.get('issue_pk')
+        project_pk = self.kwargs.get('project_pk')
+
+        return Comment.objects.filter(
+            issue__id=issue_pk,
+            issue__project__contributor__user=user
+        )
+
+    def perform_create(self, serializer):
+        issue = Issue.objects.get(pk=self.kwargs.get('issue_pk'))
+        serializer.save(author=self.request.user, issue=issue)
 
 
 # ----------- Issue Views -----------
 
 class IssueViewSet(viewsets.ModelViewSet):
-
-    queryset = Issue.objects.all()
-    permission_classes = [IsAuthenticated]
-
-    def get_serializer_class(self):
-        if self.action == 'retrieve':
-            return IssueSerializer
-        return IssueSerializer
+    permission_classes = [IsAuthenticated,
+                          IsProjectContributor,
+                          IsAuthorOrReadOnly]
+    serializer_class = IssueSerializer
 
     def get_queryset(self):
-        # Retourne les issues des projets où l'utilisateur connecté est contributeur
         user = self.request.user
-        return Issue.objects.filter(project__contributor__user=user)
+        project_pk = self.kwargs.get('project_pk')
+
+        return Issue.objects.filter(
+            project__id=project_pk,
+            project__contributor__user=user
+        )
+
+    def perform_create(self, serializer):
+        project = Project.objects.get(pk=self.kwargs.get('project_pk'))
+        serializer.save(author=self.request.user, project=project)
